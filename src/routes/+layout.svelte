@@ -1,5 +1,7 @@
 <script lang="ts">
 	import '@joyautomation/salt/styles.scss';
+	import '@fontsource/space-grotesk';
+	import '@fontsource/righteous'
 	import '$lib/css/main.scss';
 	import { theme } from '$lib/stores/theme';
 	import { ThemeButton } from '@joyautomation/salt';
@@ -19,7 +21,7 @@
 <header>
 	<nav>
 		<a href="/"><img class="logo" src="/tentacle.png" alt="Tentacle" /></a>
-		<div><ThemeButton theme={$theme} /></div>
+		<div class="m-2"><ThemeButton theme={$theme} /></div>
 	</nav>
 </header>
 {@render children()}

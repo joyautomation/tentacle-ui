@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@fontsource/righteous':
+        specifier: ^5.2.5
+        version: 5.2.5
+      '@fontsource/space-grotesk':
+        specifier: ^5.2.6
+        version: 5.2.6
       '@joyautomation/dark-matter':
         specifier: ^0.0.26
         version: 0.0.26
@@ -432,6 +438,12 @@ packages:
   '@eslint/plugin-kit@0.2.8':
     resolution: {integrity: sha512-ZAoA40rNMPwSm+AeHpCq8STiNAwzWLJuP8Xv4CHIc9wv/PSuExjMrmjfYNj682vW0OOiZ1HKxzvjQr9XZIisQA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@fontsource/righteous@5.2.5':
+    resolution: {integrity: sha512-2/qtpg5RXBxlxKk8BP5jI0XN/dp6EnXP9eqnhk6CHIM8bLTjYwV/xiiQJCxcWGzRFGMP71Hq8A97qLObcftJEg==}
+
+  '@fontsource/space-grotesk@5.2.6':
+    resolution: {integrity: sha512-Ejf50hUdoWYFkVdqckXxXuIY3tPgQZ/095EHa21uLBOuk7CQAlxqSdkPu5y47Xv+xa8A4TSrdAJlS9YdF5DqGg==}
 
   '@graphql-codegen/add@5.0.3':
     resolution: {integrity: sha512-SxXPmramkth8XtBlAHu4H4jYcYXM/o3p01+psU+0NADQowA8jtYkK6MW5rV6T+CxkEaNZItfSmZRPgIuypcqnA==}
@@ -3476,6 +3488,10 @@ snapshots:
     dependencies:
       '@eslint/core': 0.13.0
       levn: 0.4.1
+
+  '@fontsource/righteous@5.2.5': {}
+
+  '@fontsource/space-grotesk@5.2.6': {}
 
   '@graphql-codegen/add@5.0.3(graphql@16.10.0)':
     dependencies:

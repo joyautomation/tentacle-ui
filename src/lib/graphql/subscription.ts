@@ -3,12 +3,14 @@ export const plc = `
     plc {
       runtime {
         mqtt {
+        id
           brokerUrl
           clientId
           groupId
           password
           username
           version
+          state
         }
         sources {
           id
@@ -20,6 +22,11 @@ export const plc = `
           retryMaxDelay
           retryMinDelay
           state
+          error {
+            error
+            message
+            stack
+          }
         }
         tasks {
           id
@@ -29,7 +36,9 @@ export const plc = `
           scanRate
           interval
           error {
+            error
             message
+            stack
           }
           metrics {
             executeTime
@@ -39,6 +48,7 @@ export const plc = `
         variables {
           id
           description
+          datatype
           source {
             ... on PlcVariableModbusSourceRuntime {
               id

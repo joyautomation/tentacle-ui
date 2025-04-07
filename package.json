@@ -48,6 +48,8 @@
 		]
 	},
 	"dependencies": {
+		"@fontsource/righteous": "^5.2.5",
+		"@fontsource/space-grotesk": "^5.2.6",
 		"@joyautomation/dark-matter": "^0.0.26",
 		"@joyautomation/salt": "^0.0.19",
 		"@joyautomation/tentacle": "npm:@jsr/joyautomation__tentacle@^0.0.10",

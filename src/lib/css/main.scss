@@ -1,5 +1,5 @@
 button {
-	font-family: 'Space Grotesk', sans-serif;
+	font-family: "Space Grotesk", sans-serif;
 }
 
 h1 {
@@ -13,10 +13,32 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: 'Righteous', sans-serif;
+	font-family: "Righteous", sans-serif;
 }
 body {
 	font-size: var(--text-md);
 	line-height: var(--text-md-lh);
-	font-family: 'Space Grotesk', sans-serif;
+	font-family: "Space Grotesk", sans-serif;
+}
+
+.lines {
+	& > article {
+		border-bottom: solid 1px var(--theme-neutral-300);
+	}
+	& > article:last-child {
+		border-bottom: none;
+	}
+}
+
+.alternating-background {
+	& > article {
+		background-color: var(--theme-neutral-50);
+	}
+	& > article:nth-child(2n) {
+		background-color: var(--theme-neutral-100);
+	}
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin-bottom: 0px;
 }
