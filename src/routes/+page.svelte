@@ -47,23 +47,23 @@
 {/await}
 
 <style lang="scss">
-    .layout {
-        display: grid;
-				grid-template-columns: 1fr 1fr;
-				grid-template-rows: auto auto;
-				grid-template-areas:
-        "tasks variables"
-        "mqtt variables";
-				gap: calc(var(--spacing-unit) * 2);
-				margin: calc(var(--spacing-unit) * 2);
-    }
-		#tentacle-tasks {
-			grid-area: tasks;
-		}
-		#tentacle-mqtt {
-			grid-area: mqtt;
-		}
-		#tentacle-variables {
-			grid-area: variables;
-		}
+	.layout {
+		display: grid;
+		grid-template-columns: 600px 1fr;
+		grid-template-rows: auto auto;
+		grid-template-areas:
+			'tasks variables'
+			'mqtt variables';
+		gap: calc(var(--spacing-unit) * 2);
+		margin: calc(var(--spacing-unit) * 2);
+	}
+	#tentacle-tasks {
+		grid-area: tasks;
+	}
+	#tentacle-mqtt {
+		grid-area: mqtt;
+	}
+	#tentacle-variables {
+		grid-area: variables;
+	}
 </style>
