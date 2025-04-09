@@ -4,7 +4,7 @@
 	import '@fontsource/righteous'
 	import '$lib/css/main.scss';
 	import { theme } from '$lib/stores/theme';
-	import { ThemeButton } from '@joyautomation/salt';
+	import { ThemeButton, Toast } from '@joyautomation/salt';
 	import { onMount } from 'svelte';
 	let mounted = $state(false);
 	const { data, children } = $props();
@@ -25,6 +25,7 @@
 	</nav>
 </header>
 {@render children()}
+<Toast />
 
 <style>
 	header {

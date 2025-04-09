@@ -20,14 +20,13 @@
 							<span></span>
 							<Toggle
 								id={variable.id || ''}
-								name={variable.id || ''}
+								name="value"
 								checked={variable.value === 'true'}
 								action="?/setValue"
 								idName="id"
 							/>
 						{:else if variable.datatype === 'number'}
 							<VariableEditor id={variable.id || ''} value={variable.value} />
-							<span>{variable.value}</span>
 						{:else}
 							{variable.value}
 						{/if}
@@ -67,15 +66,11 @@
 			grid-area: description;
 		}
 		& > .variable__value {
-			display: grid;
 			align-items: center;
-			grid-template-columns: 300px 100px;
 			font-family: monospace;
 			grid-area: value;
 			justify-self: end;
-			& > *:last-child {
-				justify-self: end;
-			}
+      align-self: center;
 		}
 	}
 </style>

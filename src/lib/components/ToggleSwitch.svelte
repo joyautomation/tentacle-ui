@@ -5,7 +5,7 @@
 	export let name: string;
 	export let action: string;
 	export let id: string;
-	export let idName: string;
+	export let idName: string = "id";
 </script>
 
 <form

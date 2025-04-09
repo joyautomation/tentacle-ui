@@ -35,11 +35,18 @@ export enum MemoryUsageUnits {
 export type Mutation = {
   __typename?: 'Mutation';
   enableSource?: Maybe<Plc>;
+  setValue?: Maybe<Plc>;
 };
 
 
 export type MutationEnableSourceArgs = {
   sourceId: Scalars['String']['input'];
+};
+
+
+export type MutationSetValueArgs = {
+  value: Scalars['String']['input'];
+  variableId: Scalars['String']['input'];
 };
 
 export type Plc = {
