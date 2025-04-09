@@ -110,6 +110,7 @@ export type PlcSourceRuntime = {
   retryMaxDelay?: Maybe<Scalars['Int']['output']>;
   retryMinDelay?: Maybe<Scalars['Int']['output']>;
   state?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
 };
 
 export type PlcSourcesConfig = {

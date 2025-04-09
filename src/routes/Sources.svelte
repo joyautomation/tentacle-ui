@@ -11,8 +11,11 @@
 <Section title="Sources">
   <div class="lines">
     {#each sources as source}
-      <article>
+    <article>
         <div class="source__info">
+          {#if source.type === 'modbus'}
+            <img height="30px" src="/logoModbus.png" alt="Modbus" />
+          {/if}
           <h3 class="source__name">{source.name}</h3>
           <p class="source__description">{source.description}</p>
           <p class="source__state">{source.state}</p>
@@ -32,12 +35,12 @@ h3, p {
 article {
   & > .source__info {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    gap: 0 calc(var(--spacing-unit) * 1);
+    grid-template-columns: auto 1fr 1fr;
     grid-template-rows: auto auto auto;
     grid-template-areas:
-      "id state"
-      "name state"
-      "description state";
+      "logo name state"
+      "logo description state";
 
     & > .source__name {
       grid-area: name;
@@ -46,6 +49,9 @@ article {
     }
     & > .source__description {
       grid-area: description;
+      font-size: var(--text-sm);
+      line-height: var(--text-sm-lh);
+      color: var(--theme-neutral-600);
     }
     & > .source__state {
       grid-area: state;
@@ -55,6 +61,10 @@ article {
       background-color: var(--theme-neutral-300);
       padding: calc(var(--spacing-unit) * 1) calc(var(--spacing-unit)*3);
       border-radius: var(--rounded-full);
+    }
+    & > img {
+      grid-area: logo;
+      align-self: center;
     }
   }
   display: flex;

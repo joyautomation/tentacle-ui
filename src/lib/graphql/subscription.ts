@@ -14,6 +14,7 @@ export const plc = `
         }
         sources {
           id
+          type
           name
           description
           host
@@ -52,6 +53,7 @@ export const plc = `
           source {
             ... on PlcVariableModbusSourceRuntime {
               id
+              type
               register
               registerType
               rate
