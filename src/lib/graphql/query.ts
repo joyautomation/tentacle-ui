@@ -56,6 +56,12 @@ export const plc = `
           id
           description
           datatype
+          error {
+            error
+            message
+            stack
+            timestamp
+          }
           source {
             ... on PlcVariableModbusSourceRuntime {
               id

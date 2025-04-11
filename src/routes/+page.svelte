@@ -28,14 +28,16 @@
 {:then plc}
 	{#if isSuccess(plc)}
 		<main class="layout">
-			<div id="tentacle-tasks">
-				<Tasks plc={plc.output} />
-			</div>
-			<div id="tentacle-mqtt">
-				<Mqtt plc={plc.output} />
-			</div>
-			<div id="tentacle-sources">
-				<Sources plc={plc.output} />
+			<div class="left-column">
+				<div id="tentacle-tasks">
+					<Tasks plc={plc.output} />
+				</div>
+				<div id="tentacle-mqtt">
+					<Mqtt plc={plc.output} />
+				</div>
+				<div id="tentacle-sources">
+					<Sources plc={plc.output} />
+				</div>
 			</div>
 			<div id="tentacle-variables">
 				<Variables plc={plc.output} />
@@ -50,20 +52,12 @@
 	.layout {
 		display: grid;
 		grid-template-columns: 600px 1fr;
-		grid-template-rows: auto auto;
-		grid-template-areas:
-			'tasks variables'
-			'mqtt variables';
 		gap: calc(var(--spacing-unit) * 2);
 		margin: calc(var(--spacing-unit) * 2);
 	}
-	#tentacle-tasks {
-		grid-area: tasks;
-	}
-	#tentacle-mqtt {
-		grid-area: mqtt;
-	}
-	#tentacle-variables {
-		grid-area: variables;
+	.left-column {
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--spacing-unit) * 2);
 	}
 </style>

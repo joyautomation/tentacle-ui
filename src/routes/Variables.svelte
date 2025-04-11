@@ -15,6 +15,11 @@
 				<div class="variable__info">
 					<h3 class="variable__name">{variable.id}</h3>
 					<p class="variable__description">{variable.description}</p>
+					{#if variable.error}
+						<p class="variable__error">
+							{variable.error?.timestamp}: {variable.error?.message}
+						</p>
+					{/if}
 					<p class="variable__value">
 						{#if variable.datatype === 'boolean'}
 							<span></span>
@@ -55,7 +60,8 @@
 		grid-template-rows: auto auto;
 		grid-template-areas:
 			'name value'
-			'description value';
+			'description value'
+			'error value';
 
 		& > .variable__name {
 			grid-area: name;
@@ -71,6 +77,10 @@
 			grid-area: value;
 			justify-self: end;
       align-self: center;
+		}
+		& > .variable__error {
+			grid-area: error;
+			color: var(--red-500);
 		}
 	}
 </style>

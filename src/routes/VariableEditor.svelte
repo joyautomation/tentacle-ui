@@ -20,7 +20,7 @@
 			<button type="button" class="button--icon" onclick={() => showEditor = false}><Xmark /></button>
 		</form>
 	{/if}
-	<button onclick={() => showEditor = !showEditor}>{value}</button>
+	<button onclick={() => showEditor = !showEditor}>{parseFloat(value).toFixed(2)}</button>
 </div>
 
 <style lang="scss">
