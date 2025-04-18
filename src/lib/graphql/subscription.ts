@@ -3,7 +3,7 @@ export const plc = `
     plc {
       runtime {
         mqtt {
-        id
+        
           brokerUrl
           clientId
           groupId
@@ -50,6 +50,7 @@ export const plc = `
           id
           description
           datatype
+          decimals
           error {
             error
             message

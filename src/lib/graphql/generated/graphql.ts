@@ -83,7 +83,6 @@ export type PlcMqttRuntime = {
   brokerUrl?: Maybe<Scalars['String']['output']>;
   clientId?: Maybe<Scalars['String']['output']>;
   groupId?: Maybe<Scalars['String']['output']>;
-  id?: Maybe<Scalars['String']['output']>;
   password?: Maybe<Scalars['String']['output']>;
   state?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
@@ -172,6 +171,7 @@ export type PlcVariableError = {
   error?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
   stack?: Maybe<Scalars['String']['output']>;
+  timestamp?: Maybe<Scalars['String']['output']>;
 };
 
 export type PlcVariableModbusSourceRuntime = {
@@ -196,8 +196,10 @@ export type PlcVariableOpcuaSourceRuntime = {
 export type PlcVariableRuntime = {
   __typename?: 'PlcVariableRuntime';
   datatype?: Maybe<Scalars['String']['output']>;
+  decimals?: Maybe<Scalars['Int']['output']>;
   default?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
+  error?: Maybe<PlcVariableError>;
   id?: Maybe<Scalars['String']['output']>;
   source?: Maybe<PlcVariableSourceRuntime>;
   value?: Maybe<Scalars['String']['output']>;

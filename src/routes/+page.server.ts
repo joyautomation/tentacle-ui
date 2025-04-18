@@ -30,6 +30,9 @@ export const actions = {
 export const load = () => {
 	return {
 		info: sendRequest({ query: info }),
-		plc: sendRequest<Plc>({ query: plc }),
+		plc: sendRequest<Plc>({ query: plc }).then((result) => {
+			console.log(result);
+			return result
+		}),
 	};
 };

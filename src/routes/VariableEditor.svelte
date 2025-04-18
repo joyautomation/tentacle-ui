@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { Pencil, Xmark } from '@joyautomation/salt/icons';
 	import { slide } from 'svelte/transition';
-	const { id, value } = $props();
+	const { id, value, decimals } = $props();
 	const editedValue = $state(value);
 	let showEditor = $state(false);
 </script>
@@ -20,7 +20,7 @@
 			<button type="button" class="button--icon" onclick={() => showEditor = false}><Xmark /></button>
 		</form>
 	{/if}
-	<button onclick={() => showEditor = !showEditor}>{parseFloat(value).toFixed(2)}</button>
+	<button onclick={() => showEditor = !showEditor}>{parseFloat(value).toFixed(decimals)}</button>
 </div>
 
 <style lang="scss">
