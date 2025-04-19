@@ -1,9 +1,11 @@
 <script lang="ts">
-    const { children, title } = $props();
+	import type { Snippet } from "svelte";
+
+    const { children, title, header }: { children: Snippet, title: string, header?: Snippet } = $props();
 </script>
 
 <section>
-   <h2>{title}</h2>
+   <h2>{title} {#if header } <div class="flex flex-grow">{@render header() }</div> {/if}</h2>
    <div>
        {@render children()}
    </div>
@@ -18,6 +20,8 @@
       background-color: var(--theme-neutral-300);
       padding: calc(var(--spacing-unit) * 2);
       margin-bottom: 0px;
+      display: flex;
+      
     }
     background-color: var(--theme-neutral-50);
     & > div {

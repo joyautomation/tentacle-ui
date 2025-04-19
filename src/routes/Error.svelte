@@ -8,10 +8,10 @@
 
 <style lang="scss">
 .error {
-  color: var(--red-500);
-  border: 1px solid var(--red-500);
+  color: var(--theme-error-950);
+  border: 1px solid var(--theme-error-950);
   border-radius: var(--rounded-md);
   padding: var(--spacing-unit) calc(var(--spacing-unit) * 2);
-  background-color: var(--red-100);
+  background-color: var(--theme-error-100);
 }
 </style>

@@ -66,6 +66,17 @@ export const plc = `
               rate
               format
             }
+            ... on PlcVariableRestSourceRuntime {
+              type
+              url
+              rate
+              timeout
+            }
+            ... on PlcVariableMqttSourceRuntime {
+              id
+              type
+              topic
+            } 
           }
           value
         }

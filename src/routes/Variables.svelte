@@ -1,34 +1,76 @@
 <script lang="ts">
 	import Section from './Section.svelte';
-	import type { Plc } from '$lib/graphql/generated/graphql';
+	import type { Plc, PlcSourceRuntime, PlcVariableError, PlcVariableRestSourceRuntime, PlcVariableRuntime } from '$lib/graphql/generated/graphql';
 	import Toggle from '$lib/components/ToggleSwitch.svelte';
 	import VariableEditor from './VariableEditor.svelte';
+	import { format} from 'date-fns';
+	import { Link } from '@joyautomation/salt/icons';
 
 	const { plc }: { plc: Plc } = $props();
 	const variables = $derived(plc?.runtime?.variables || []);
+
+	function isPlcVariableRestSourceRuntime(source: unknown): source is PlcVariableRestSourceRuntime {
+		return typeof source === 'object' && source !== null && 'type' in source && source.type === 'rest' && 'timeout' in source;
+	}
+
+	function getErrorText(error: PlcVariableError | null, variable: PlcVariableRuntime) {
+		if (error?.message?.startsWith('AbortError')) {
+			if (variable.source && isPlcVariableRestSourceRuntime(variable.source)) {
+				return `Request timed out after ${variable.source.timeout} ms`;
+			}
+			return 'Request timed out';
+		}
+		return `${error?.message}`;
+	}
+	
+	function formatError(error: PlcVariableError | null, variable: PlcVariableRuntime) {
+		if (!error) return '';
+		const date = format(new Date(error.timestamp || Date.now()), 'yyyy-MM-dd HH:mm:ss');
+		return `${date}: ${getErrorText(error, variable)}`;
+	}
+
+	function getSourceState(sourceId: string) {
+		return plc?.runtime?.sources?.find((source) => source.id === sourceId)?.state || 'Unknown';
+	}
+
+	function getSourceStateColor(sourceId: string) {
+		const state = getSourceState(sourceId);
+		if (state === 'connected') {
+			return 'var(--green-500)';
+		}
+		if (state === 'disconnected') {
+			return 'var(--orange-500)';
+		}
+		if (state === 'errored') {
+			return 'var(--red-500)';
+		}
+		return 'var(--theme-neutral-500)';
+	}
 </script>
 
-<Section title="Variables">
+<Section title={`Variables`}>
+	{#snippet header()}
+		<div class="variables__count">{variables.length}</div>
+		<input type="text" />
+	{/snippet}
 	<div class="lines alternating-background last-child-rounded">
-		<div>{variables.length}</div>
 		{#each variables as variable}
 			<article>
 				<div class="variable__info">
 					<h3 class="variable__name">{variable.id}</h3>
 					{#if variable.source}
-						<div class="variable__source">
-							{variable.source.id}
+						<div class="variable__source" style:color={getSourceStateColor(variable.source.id || '')} style:border={`solid 1px ${getSourceStateColor(variable.source.id || '')}`}>
+							<Link size="1rem" />{variable.source.type === 'rest' ? 'REST' : variable.source.id}
 						</div>
 					{/if}
 					<p class="variable__description">{variable.description}</p>
 					{#if variable.error}
 						<p class="variable__error">
-							{variable.error?.timestamp}: {variable.error?.message}
+							{formatError(variable.error, variable)}
 						</p>
 					{/if}
 					<p class="variable__value">
 						{#if variable.datatype === 'boolean'}
-							<span></span>
 							<Toggle
 								id={variable.id || ''}
 								name="value"
@@ -62,13 +104,13 @@
 	}
 	.variable__info {
 		display: grid;
-		gap: 0 calc(var(--spacing-unit) * 1);
+		gap: 0 calc(var(--spacing-unit) * 2);
 		grid-template-columns: auto auto 1fr;
 		grid-template-rows: auto auto;
 		grid-template-areas:
 			'name source value'
 			'description description value'
-			'error error value';
+			'error error error';
 
 		& > .variable__name {
 			grid-area: name;
@@ -76,13 +118,19 @@
 			line-height: var(--text-lg-lh);
 		}
 		& > .variable__source {
+			display: grid;
+			grid-template-columns: auto auto;
+			gap: 0 calc(var(--spacing-unit) * 1);
+			align-items: center;
 			grid-area: source;
+			font-size: var(--text-sm);
+			line-height: var(--text-sm-lh);
 			background-color: var(--theme-neutral-300);
 			padding: calc(var(--spacing-unit) * 0.5);
 			border-radius: var(--rounded-full);
 			justify-self: center;
 			align-self: center;
-			padding-left: calc(var(--spacing-unit) * 2);
+			padding-left: calc(var(--spacing-unit) * 1);
 			padding-right: calc(var(--spacing-unit) * 2);
 		}
 		& > .variable__description {

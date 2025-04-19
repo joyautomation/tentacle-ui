@@ -185,12 +185,32 @@ export type PlcVariableModbusSourceRuntime = {
   type?: Maybe<Scalars['String']['output']>;
 };
 
+export type PlcVariableMqttSourceRuntime = {
+  __typename?: 'PlcVariableMqttSourceRuntime';
+  id?: Maybe<Scalars['String']['output']>;
+  onResponse?: Maybe<PlcVariableError>;
+  topic?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+};
+
 export type PlcVariableOpcuaSourceRuntime = {
   __typename?: 'PlcVariableOpcuaSourceRuntime';
   error?: Maybe<PlcVariableError>;
   id?: Maybe<Scalars['String']['output']>;
   rate?: Maybe<Scalars['Int']['output']>;
   type?: Maybe<Scalars['String']['output']>;
+};
+
+export type PlcVariableRestSourceRuntime = {
+  __typename?: 'PlcVariableRestSourceRuntime';
+  id?: Maybe<Scalars['String']['output']>;
+  method?: Maybe<Scalars['String']['output']>;
+  onResponse?: Maybe<PlcVariableError>;
+  rate?: Maybe<Scalars['Int']['output']>;
+  setFromResponse?: Maybe<Scalars['Boolean']['output']>;
+  timeout?: Maybe<Scalars['Int']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+  url?: Maybe<Scalars['String']['output']>;
 };
 
 export type PlcVariableRuntime = {
@@ -205,7 +225,7 @@ export type PlcVariableRuntime = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
-export type PlcVariableSourceRuntime = PlcVariableModbusSourceRuntime | PlcVariableOpcuaSourceRuntime;
+export type PlcVariableSourceRuntime = PlcVariableModbusSourceRuntime | PlcVariableMqttSourceRuntime | PlcVariableOpcuaSourceRuntime | PlcVariableRestSourceRuntime;
 
 export type Query = {
   __typename?: 'Query';
