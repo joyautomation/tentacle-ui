@@ -12,7 +12,6 @@
 			{#each mqtts as mqtt}
 				<article>
 					<div class="mqtt__info">
-						<h3 class="mqtt__id">{mqtt.id}</h3>
 						<p class="mqtt__brokerUrl">{mqtt.brokerUrl}</p>
 						<p class="mqtt__clientId">{mqtt.clientId}</p>
 						<p class="mqtt__state">{mqtt.state}</p>
