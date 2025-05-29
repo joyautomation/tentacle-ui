@@ -1,0 +1,17 @@
+name: Register ARM64 Container Image
+on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  register-arm64:
+    uses: ./.github/workflows/register-template.yml
+    with:
+      image_name: joyautomation/tentacle-ui
+      platform: linux/arm64
+      use_buildx: true
+    secrets:
+      DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}

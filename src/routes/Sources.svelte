@@ -15,6 +15,10 @@
 				<div class="source__info">
 					{#if source.type === 'modbus'}
 						<img height="30px" src="/logoModbus.png" alt="Modbus" />
+					{:else if source.type === 'redis'}
+						<img height="30px" src="/logoRedis.png" alt="Redis" />
+					{:else}
+						<img height="30px" src="/network-server.png" alt="Redis" />
 					{/if}
 					<h3 class="source__name">{source.name}</h3>
 					<p class="source__host">{source.host}</p>
@@ -38,7 +42,7 @@
 		& > .source__info {
 			display: grid;
 			gap: 0 calc(var(--spacing-unit) * 1);
-			grid-template-columns: auto 1fr 1fr;
+			grid-template-columns: 100px 1fr 1fr;
 			grid-template-rows: auto auto auto;
 			grid-template-areas:
 				'logo name state'
@@ -68,6 +72,7 @@
 			& > img {
 				grid-area: logo;
 				align-self: center;
+				justify-self: center;
 			}
 		}
 		display: flex;

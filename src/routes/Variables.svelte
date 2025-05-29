@@ -57,8 +57,9 @@
 
 	function getSourceStateColor(sourceId: string) {
 		const state = getSourceState(sourceId);
+		console.log(sourceId, state);
 		if (state === 'connected') {
-			return 'var(--green-500)';
+			return 'var(--theme-neutral-700)';
 		}
 		if (state === 'disconnected') {
 			return 'var(--orange-500)';
@@ -66,7 +67,7 @@
 		if (state === 'errored') {
 			return 'var(--red-500)';
 		}
-		return 'var(--theme-neutral-500)';
+		return 'var(--theme-neutral-700)';
 	}
 
 	let filter = $state('');
