@@ -77,6 +77,7 @@ export const PlcFragment = `fragment Plc on Plc {
         ... on PlcVariableRedisSourceRuntime {
           id
           type
+          key
         }
       }
       value

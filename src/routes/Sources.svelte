@@ -21,7 +21,7 @@
 						<img height="30px" src="/network-server.png" alt="Redis" />
 					{/if}
 					<h3 class="source__name">{source.name}</h3>
-					<p class="source__host">{source.host}</p>
+					<p class="source__host">{source.host}:{source.port}</p>
 					<p class="source__description">{source.description}</p>
 					<p class="source__state">{source.state}</p>
 				</div>

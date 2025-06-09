@@ -98,6 +98,15 @@
 							style:border={`solid 1px ${getSourceStateColor(variable.source.id || '')}`}
 						>
 							<Link size="1rem" />{variable.source.type === 'rest' ? 'REST' : variable.source.id}
+							{#if variable.source.type === 'modbus'}
+								{variable.source.register}
+							{/if}
+							{#if variable.source.type === 'mqtt'}
+								{variable.source.topic}
+							{/if}
+							{#if variable.source.type === 'redis'}
+								{variable.source.key}
+							{/if}
 						</div>
 					{/if}
 					<p class="variable__description">{variable.description}</p>
