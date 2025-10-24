@@ -1,6 +1,6 @@
 import { createPlcServerEvents, destroySource } from '$lib/sse.js';
 import { plc } from '$lib/graphql/subscription.js';
-import { EventEmitter } from 'events';
+import { EventEmitter } from 'node:events';
 import { isFail } from '@joyautomation/dark-matter';
 import { error } from '@sveltejs/kit';
 import type { Plc } from '$lib/types';
