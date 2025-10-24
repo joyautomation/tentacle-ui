@@ -12,15 +12,15 @@ echo "📋 Copying build output..."
 cp -r build dist/
 
 echo "📄 Creating production package.json..."
-node -e "
-const pkg = require('./package.json');
+deno eval "
+const pkg = JSON.parse(Deno.readTextFileSync('./package.json'));
 const prodPkg = {
   name: pkg.name,
   version: pkg.version,
   type: pkg.type,
   dependencies: pkg.dependencies
 };
-require('fs').writeFileSync('dist/package.json', JSON.stringify(prodPkg, null, '\t') + '\n');
+Deno.writeTextFileSync('dist/package.json', JSON.stringify(prodPkg, null, '\t') + '\n');
 "
 
 echo "📥 Installing production dependencies..."
