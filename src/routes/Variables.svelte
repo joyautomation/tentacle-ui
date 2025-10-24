@@ -57,8 +57,9 @@
 
 	function getSourceStateColor(sourceId: string) {
 		const state = getSourceState(sourceId);
+		console.log(sourceId, state);
 		if (state === 'connected') {
-			return 'var(--green-500)';
+			return 'var(--theme-neutral-700)';
 		}
 		if (state === 'disconnected') {
 			return 'var(--orange-500)';
@@ -66,7 +67,7 @@
 		if (state === 'errored') {
 			return 'var(--red-500)';
 		}
-		return 'var(--theme-neutral-500)';
+		return 'var(--theme-neutral-700)';
 	}
 
 	let filter = $state('');
@@ -97,6 +98,15 @@
 							style:border={`solid 1px ${getSourceStateColor(variable.source.id || '')}`}
 						>
 							<Link size="1rem" />{variable.source.type === 'rest' ? 'REST' : variable.source.id}
+							{#if variable.source.type === 'modbus'}
+								{variable.source.register}
+							{/if}
+							{#if variable.source.type === 'mqtt'}
+								{variable.source.topic}
+							{/if}
+							{#if variable.source.type === 'redis'}
+								{variable.source.key}
+							{/if}
 						</div>
 					{/if}
 					<p class="variable__description">{variable.description}</p>

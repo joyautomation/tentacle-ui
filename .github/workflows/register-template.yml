@@ -1,0 +1,125 @@
+name: Register Container Image Template
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        required: true
+        type: string
+        description: "Name of the image to register (e.g., joyautomation/tentacle-ui)"
+      platform:
+        required: true
+        type: string
+        description: "Platform to build for (e.g., linux/amd64, linux/arm64)"
+      use_buildx:
+        required: false
+        type: boolean
+        default: false
+        description: "Whether to use Docker Buildx for multi-platform builds"
+    secrets:
+      DIGITALOCEAN_ACCESS_TOKEN:
+        required: true
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@main
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+      - name: Get release tag
+        id: get_tag
+        run: echo "VERSION_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Extract short SHA
+        id: sha
+        run: echo "SHORT_SHA=$(git rev-parse --short=7 HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Check if image exists in registry
+        id: check_image
+        run: |
+          doctl registry login --expiry-seconds 1200
+          if docker pull registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.sha.outputs.SHORT_SHA }} 2>/dev/null; then
+            echo "Image already exists in registry, skipping build and push"
+            echo "EXISTS=true" >> $GITHUB_OUTPUT
+          else
+            echo "Image does not exist, will build and push"
+            echo "EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Docker Buildx
+        if: ${{ inputs.use_buildx == true && steps.check_image.outputs.EXISTS != 'true' }}
+        uses: docker/setup-buildx-action@v3
+
+      - name: Extract platform info
+        id: platform
+        run: |
+          if [[ "${{ inputs.platform }}" == *"amd64"* ]]; then
+            echo "ARCH=amd64" >> $GITHUB_OUTPUT
+          elif [[ "${{ inputs.platform }}" == *"arm64"* ]]; then
+            echo "ARCH=arm64" >> $GITHUB_OUTPUT
+          else
+            echo "ARCH=unknown" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Build with Buildx
+        if: ${{ inputs.use_buildx == true && steps.check_image.outputs.EXISTS != 'true' }}
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          platforms: ${{ inputs.platform }}
+          tags: |
+            registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}
+            registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}
+            registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.sha.outputs.SHORT_SHA }}
+            ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}
+            ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}
+          push: false
+          load: true
+
+      - name: Build with standard Docker
+        if: ${{ inputs.use_buildx != true && steps.check_image.outputs.EXISTS != 'true' }}
+        run: |
+          docker build -t registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }} .
+          docker tag registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }} registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}
+          docker tag registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }} registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.sha.outputs.SHORT_SHA }}
+          docker tag registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }} ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}
+
+      - name: Log in to DigitalOcean Container Registry
+        if: ${{ steps.check_image.outputs.EXISTS != 'true' }}
+        run: doctl registry login --expiry-seconds 1200
+
+      - name: Push image to DigitalOcean Container Registry
+        if: ${{ steps.check_image.outputs.EXISTS != 'true' }}
+        run: |
+          docker push registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}
+          docker push registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}
+          docker push registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.sha.outputs.SHORT_SHA }}
+
+      - name: Login to Docker Hub
+        if: ${{ steps.check_image.outputs.EXISTS != 'true' }}
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag for Docker Hub
+        if: ${{ steps.check_image.outputs.EXISTS != 'true' }}
+        run: docker tag registry.digitalocean.com/jar-containers/${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }} ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}
+
+      - name: Push to Docker Hub
+        if: ${{ steps.check_image.outputs.EXISTS != 'true' }}
+        run: |
+          docker push ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}
+          docker push ${{ inputs.image_name }}:${{ steps.get_tag.outputs.VERSION_TAG }}-${{ steps.platform.outputs.ARCH }}

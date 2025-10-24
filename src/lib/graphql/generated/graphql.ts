@@ -201,9 +201,16 @@ export type PlcVariableOpcuaSourceRuntime = {
   type?: Maybe<Scalars['String']['output']>;
 };
 
+export type PlcVariableRedisSourceRuntime = {
+  __typename?: 'PlcVariableRedisSourceRuntime';
+  bidirectional?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['String']['output']>;
+  key?: Maybe<Scalars['String']['output']>;
+  type?: Maybe<Scalars['String']['output']>;
+};
+
 export type PlcVariableRestSourceRuntime = {
   __typename?: 'PlcVariableRestSourceRuntime';
-  id?: Maybe<Scalars['String']['output']>;
   method?: Maybe<Scalars['String']['output']>;
   onResponse?: Maybe<PlcVariableError>;
   rate?: Maybe<Scalars['Int']['output']>;
@@ -225,7 +232,7 @@ export type PlcVariableRuntime = {
   value?: Maybe<Scalars['String']['output']>;
 };
 
-export type PlcVariableSourceRuntime = PlcVariableModbusSourceRuntime | PlcVariableMqttSourceRuntime | PlcVariableOpcuaSourceRuntime | PlcVariableRestSourceRuntime;
+export type PlcVariableSourceRuntime = PlcVariableModbusSourceRuntime | PlcVariableMqttSourceRuntime | PlcVariableOpcuaSourceRuntime | PlcVariableRedisSourceRuntime | PlcVariableRestSourceRuntime;
 
 export type Query = {
   __typename?: 'Query';
